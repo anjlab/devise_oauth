@@ -37,6 +37,16 @@ describe ProtectedResourcesController do
       it { should respond_with :forbidden }
       it { should respond_with_content_type :json }
     end
+
+    context "can't access protected resource with invalid access token" do
+      before do
+        attributes.merge!(access_token: 'not valid')
+        get :index, attributes
+      end
+
+      it { should respond_with :forbidden }
+      # it { should respond_with_content_type :json }
+    end
   end
 
   context "Access protected resources with default scope" do
@@ -59,7 +69,7 @@ describe ProtectedResourcesController do
 
     context "can write protected resources" do
       before do
-        post :create, attributes
+        post :create, attributes        
       end
 
       it { should respond_with :ok }

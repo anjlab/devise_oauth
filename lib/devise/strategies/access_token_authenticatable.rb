@@ -1,5 +1,4 @@
 require 'devise/strategies/base'
-
 module Devise
   module Strategies
     class AccessTokenAuthenticatable < Authenticatable
@@ -13,12 +12,12 @@ module Devise
       end
 
       def authenticate!
-        if @access_tokens.length > 1
-          return fail(:invalid_token)
-        end
+        return oauth_error! if @access_tokens.length > 1
 
         access_token = Devise::Oauth::AccessToken.where(value: @access_tokens.first).first
-        return fail(:invalid_token) unless access_token
+
+        return oauth_error!(403, :access_denied) unless access_token
+        return oauth_error!(403, :access_denied) if access_token.expired?
 
         resource = access_token.resource_owner
         if validate(resource)
@@ -31,10 +30,13 @@ module Devise
       end
 
     private
-      def oauth_error!(error_code = :invalid_request, description = nil)
-        body = {:error => error_code}
+      def oauth_error!(status = 400, error_code = :invalid_request, description = nil)
+        body = {error: error_code}
         body[:error_description] = description if description
-        custom! [400, {'Content-Type' => 'application/json'}, [body.to_json]]
+
+        headers = {"Content-Type" => "application/json; charset=utf-8"}
+        
+        custom! [status, headers, [body.to_json]]
       end
 
       # Access Token Authenticatable can be authenticated with params in any controller and any verb.
