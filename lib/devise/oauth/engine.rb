@@ -1,12 +1,17 @@
 module Devise::Oauth
   class Engine < ::Rails::Engine
+
+    NAME = "oauth"
+
     def table_name_prefix
-      "oauth"
+      NAME
     end
 
     def self.generate_railtie_name(mod)
-      "oauth"
+      NAME
     end
+
+    engine_name NAME
 
     isolate_namespace Devise::Oauth
 
