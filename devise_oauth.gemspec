@@ -11,7 +11,10 @@ Gem::Specification.new do |s|
   s.summary     = "Oauth 2.0 provider implementation on top of devise."
   s.description = "The OAuth 2.0 Authorization Framework draft-ietf-oauth-v2-28 implementation on top of devise."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.require_paths = ["lib"]
 
   s.add_dependency "rails", ">= 3.2.0"
   s.add_dependency "devise", ">= 2.1"
