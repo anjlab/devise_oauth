@@ -50,7 +50,7 @@ module Devise
       end
 
       def access_token_in_payload
-        params['access_token']
+        (%w[access_token] + Devise::Oauth.access_token_synonyms).map{|name| params[name]}.compact.first
       end
 
       def access_token_in_header

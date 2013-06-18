@@ -12,6 +12,9 @@ module Devise
     mattr_accessor :scopes
     @@scopes = []
 
+    mattr_accessor :access_token_synonyms
+    @@access_token_synonyms = []
+
     mattr_accessor :access_token_expires_in
     @@access_token_expires_in = 1.hour
 
