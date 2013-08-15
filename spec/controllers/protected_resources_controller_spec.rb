@@ -47,6 +47,16 @@ describe ProtectedResourcesController do
       it { should respond_with :forbidden }
       # it { should respond_with_content_type :json }
     end
+
+    context "can't access protected resource with blocked access token" do
+      before do
+        @token.block!
+        get :index, attributes
+      end
+
+      it { should respond_with :forbidden }
+      # it { should respond_with_content_type :json }
+    end
   end
 
   context "Access protected resources with default scope" do
