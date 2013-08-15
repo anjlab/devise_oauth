@@ -18,6 +18,7 @@ module Devise
 
         return oauth_error!(403, :access_denied) unless access_token
         return oauth_error!(403, :access_denied) if access_token.expired?
+        return oauth_error!(403, :access_denied) if access_token.blocked?
 
         resource = access_token.resource_owner
         if validate(resource)
