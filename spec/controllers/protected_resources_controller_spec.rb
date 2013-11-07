@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ProtectedResourcesController do
-  before(:each) { 
+  before(:each) {
     @user   = create(:user)
     @client = create(:client)
     @authorization = create(:authorization, client: @client, resource_owner: @user)
@@ -14,9 +14,9 @@ describe ProtectedResourcesController do
   let(:authorization) { @authorization }
   let(:access)        { @access }
   let(:token)         { @token }
-  
+
   context "Access protected resources with default scope" do
-    let(:attributes) { 
+    let(:attributes) {
       { access_token: @token.value }
     }
 
@@ -26,7 +26,7 @@ describe ProtectedResourcesController do
       end
 
       it { should respond_with :ok }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
     end
 
     context "can't write protected resources" do
@@ -35,7 +35,7 @@ describe ProtectedResourcesController do
       end
 
       it { should respond_with :forbidden }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
     end
 
     context "can't access protected resource with invalid access token" do
@@ -74,16 +74,16 @@ describe ProtectedResourcesController do
       end
 
       it { should respond_with :ok }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
     end
 
     context "can write protected resources" do
       before do
-        post :create, attributes        
+        post :create, attributes
       end
 
       it { should respond_with :ok }
-      it { should respond_with_content_type :json }
-    end    
+      it { response.content_type.should == "application/json" }
+    end
   end
 end

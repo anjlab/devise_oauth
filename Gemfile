@@ -6,12 +6,21 @@ source 'http://rubygems.org'
 gemspec
 
 # jquery-rails is used by the dummy application
+
 gem 'jquery-rails'
 gem 'devise'
 
 gem 'database_cleaner'
 gem 'factory_girl_rails'
-gem 'rspec-rails', '>= 2.0'
-gem 'shoulda-matchers'
+
+# group :test do
+  gem "shoulda-matchers"
+# end
+
+# `rspec-rails` needs to be in the development group so that Rails generators work.
+# group :development, :test do
+  gem "rspec-rails", "~> 2.12"
+# end
+
 
 gem 'cancan'

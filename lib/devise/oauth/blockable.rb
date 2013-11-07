@@ -17,11 +17,11 @@ module Devise::Oauth::Blockable
 
   module ClassMethods
     def block_access!(client_id, resource_owner_id)
-      update_all({ blocked_at: Time.now }, { client_id: client_id, resource_owner_id: resource_owner_id })
+      where(client_id: client_id, resource_owner_id: resource_owner_id).update_all(blocked_at: Time.now)
     end
 
     def block_client!(client_id)
-      update_all({ blocked_at: Time.now }, { client_id: client_id })
+      where(client_id: client_id).update_all(blocked_at: Time.now)
     end
   end
 end

@@ -5,8 +5,6 @@ class Devise::Oauth::AccessToken < ActiveRecord::Base
   validates :client_id,         presence: true
   validates :resource_owner_id, presence: true
 
-  attr_accessible :client, :resource_owner, :scope
-
   before_create :generate_refresh_token if Devise::Oauth.generate_refresh_token
 
   before_create :generate_value
@@ -24,7 +22,7 @@ class Devise::Oauth::AccessToken < ActiveRecord::Base
 
     generate_value
     setup_expiration
-    
+
     save
     token_response(Devise::Oauth.regenerate_refresh_token)
   end

@@ -3,12 +3,12 @@ require 'spec_helper'
 describe Devise::Oauth::AuthorizationsController do
   render_views
 
-  before(:each) { 
+  before(:each) {
     @routes = Devise::Oauth::Engine.routes
     @user   = create(:user)
     @client = create(:client)
     @authorization = create(:authorization, client: @client, resource_owner: @user)
-    @access = create(:access, client: @client, resource_owner: @user) 
+    @access = create(:access, client: @client, resource_owner: @user)
   }
 
   let(:user)          { @user }
@@ -30,7 +30,7 @@ describe Devise::Oauth::AuthorizationsController do
       before { get :show, attributes }
 
       it { should respond_with :ok }
-      it { should respond_with_content_type :html }
+      it { response.content_type.should == "text/html" }
       it { should render_template 'devise/oauth/authorizations/show' }
       it { should render_with_layout 'application' }
       it "renders client name" do
@@ -40,13 +40,13 @@ describe Devise::Oauth::AuthorizationsController do
       context "#grant" do
         before { post :create, attributes }
         it { should respond_with :redirect }
-        it { should respond_with_content_type :html }
+        it { response.content_type.should == "text/html" }
       end
 
       context "#deny" do
         before { delete :destroy, attributes }
         it { should respond_with :redirect }
-        it { should respond_with_content_type :html }
+        it { response.content_type.should == "text/html" }
       end
     end
   end

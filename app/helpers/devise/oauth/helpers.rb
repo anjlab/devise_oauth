@@ -17,7 +17,7 @@ module Devise::Oauth::Helpers
   end
 
   def access_blocked?
-    @access = Devise::Oauth::Access.find_or_create_by_client_id_and_resource_owner_id(@client.id, @resource_owner.id)
+    @access = Devise::Oauth::Access.find_or_create_by(client_id: @client.id, resource_owner_id: @resource_owner.id)
     blocked_token if @access.blocked?
   end
 

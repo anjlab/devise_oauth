@@ -7,7 +7,7 @@ shared_examples "client is blocked flow" do
   end
 
   it { should respond_with :unprocessable_entity }
-  it { should respond_with_content_type :json }
+  it { response.content_type.should == "application/json" }
   it "should have error 'invalid_request'" do
     res = JSON.load(response.body)
     res['error'].should == "invalid_request"
@@ -21,7 +21,7 @@ shared_examples "access is blocked (resource owner block a client) flow" do
     post :create, attributes
   end
   it { should respond_with :unprocessable_entity }
-  it { should respond_with_content_type :json }
+  it { response.content_type.should == "application/json" }
 end
 
 shared_examples "invalid client_id flow" do
@@ -31,7 +31,7 @@ shared_examples "invalid client_id flow" do
   end
 
   it { should respond_with :unprocessable_entity }
-  it { should respond_with_content_type :json }
+  it { response.content_type.should == "application/json" }
 
   it "should have error 'invalid_request'" do
     res = JSON.load(response.body)
@@ -41,22 +41,22 @@ shared_examples "invalid client_id flow" do
 end
 
 describe Devise::Oauth::AccessTokensController do
-  before(:each) { 
+  before(:each) {
     @routes = Devise::Oauth::Engine.routes
     @user   = create(:user)
     @client = create(:client)
     @authorization = create(:authorization, client: @client, resource_owner: @user)
-    @access = create(:access, client: @client, resource_owner: @user) 
+    @access = create(:access, client: @client, resource_owner: @user)
   }
 
   let(:user)          { @user }
   let(:client)        { @client }
   let(:authorization) { @authorization }
   let(:access)        { @access}
-  
+
   context "Authorization code" do
-    let(:attributes) { 
-      { 
+    let(:attributes) {
+      {
         grant_type: "authorization_code",
         client_id: client.identifier,
         client_secret: client.secret,
@@ -72,7 +72,7 @@ describe Devise::Oauth::AccessTokensController do
       let (:access_token) { @access_token = Devise::Oauth::AccessToken.last }
 
       it { should respond_with :ok }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
       it "should create new access token" do
         access_token.should be_present
       end
@@ -89,7 +89,7 @@ describe Devise::Oauth::AccessTokensController do
       end
 
       it { should respond_with :unprocessable_entity }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
       it "should have error 'invalid_request'" do
         res = JSON.load(response.body)
         res['error'].should == "invalid_request"
@@ -104,7 +104,7 @@ describe Devise::Oauth::AccessTokensController do
       end
 
       it { should respond_with :unprocessable_entity }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
 
       it "should have error 'invalid_request'" do
         res = JSON.load(response.body)
@@ -120,7 +120,7 @@ describe Devise::Oauth::AccessTokensController do
 
   context "Password credentials" do
     let(:attributes) {
-      { 
+      {
         grant_type: "password",
         client_id: client.identifier,
         client_secret: client.secret,
@@ -131,13 +131,13 @@ describe Devise::Oauth::AccessTokensController do
     }
 
     context "main flow" do
-      before do 
+      before do
         post :create, attributes
       end
       let (:access_token) { @access_token = Devise::Oauth::AccessToken.last }
 
       it { should respond_with :ok }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
       it "should create new access token" do
         access_token.should be_present
       end
@@ -154,7 +154,7 @@ describe Devise::Oauth::AccessTokensController do
       end
       ## TODO: bad request? or may be unauthorized?
       it { should respond_with :bad_request }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
     end
 
     it_behaves_like "client is blocked flow"
@@ -166,22 +166,22 @@ describe Devise::Oauth::AccessTokensController do
     let(:token) { create(:access_token, resource_owner: user, client: client) }
 
     let(:attributes) {
-      { 
+      {
         grant_type: "refresh_token",
         refresh_token: token.refresh_token,
         client_id: client.identifier,
-        client_secret: client.secret 
+        client_secret: client.secret
       }
     }
 
     context "main flow" do
-      before do 
+      before do
         post :create, attributes
       end
       let (:access_token) { @access_token = Devise::Oauth::AccessToken.last }
 
       it { should respond_with :ok }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
       it "should create new access token" do
         access_token.should be_present
       end
@@ -197,7 +197,7 @@ describe Devise::Oauth::AccessTokensController do
         post :create, attributes
       end
       it { should respond_with :bad_request }
-      it { should respond_with_content_type :json }
+      it { response.content_type.should == "application/json" }
       # page.should have_content "Refresh token not found"
     end
 

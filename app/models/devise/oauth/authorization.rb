@@ -11,8 +11,6 @@ class Devise::Oauth::Authorization < ActiveRecord::Base
   include Devise::Oauth::Scopable
   include Devise::Oauth::Blockable
 
-  attr_accessible :client, :resource_owner, :scope
-
   def expired?(at = Time.now)
     self.expires_at < at
   end
@@ -54,5 +52,4 @@ class Devise::Oauth::Authorization < ActiveRecord::Base
     self.expires_at = Time.now + Devise::Oauth.authorization_code_expires_in
   end
 
-  
 end

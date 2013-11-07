@@ -3,7 +3,6 @@ require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
 require 'devise/test_helpers'
 
-
 ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

@@ -1,11 +1,11 @@
-module Devise::Oauth 
+module Devise::Oauth
   class Client < ActiveRecord::Base
     def self.client_ownable?
       Devise::Oauth.client_owner.constantize.devise_modules.include? :client_ownable
     end
-   
+
     belongs_to :owner, class_name: Devise::Oauth.client_owner if self.client_ownable?
-    
+
     has_many :access_tokens,  class_name: "Devise::Oauth::AccessToken",   dependent: :destroy
     has_many :authorizations, class_name: "Devise::Oauth::Authorization", dependent: :destroy
     has_many :accesses,       class_name: "Devise::Oauth::Access",        dependent: :destroy
@@ -44,6 +44,6 @@ module Devise::Oauth
 
     def generate_secret
       self.secret = Devise::Oauth.friendly_token
-    end 
+    end
   end
 end
