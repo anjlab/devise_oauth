@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    devise_oauth (2.0.3)
+    devise_oauth (3.0.0)
       devise (>= 2.1)
       rails (>= 3.0.0)
 
