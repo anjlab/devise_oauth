@@ -36,7 +36,7 @@ module Devise
         body[:error_description] = description if description
 
         headers = {"Content-Type" => "application/json; charset=utf-8"}
-        
+
         custom! [status, headers, [body.to_json]]
       end
 
@@ -56,7 +56,7 @@ module Devise
 
       def access_token_in_header
         auth_header = ::Rack::Auth::AbstractRequest.new(env)
-        if auth_header.provided? && auth_header.scheme == :bearer
+        if auth_header.provided? && auth_header.scheme.to_sym == :bearer
           auth_header.params
         else
           nil
