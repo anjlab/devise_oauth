@@ -30,10 +30,10 @@ class Devise::Oauth::AccessTokensController < ApplicationController
   }
   
   ## common flow
-  before_filter :find_client,      only: :create
-  before_filter :client_blocked?,  only: :create
-  before_filter :find_grant_type,  only: :create
-  before_filter :execute_flow,     only: :create
+  before_action :find_client,      only: :create
+  before_action :client_blocked?,  only: :create
+  before_action :find_grant_type,  only: :create
+  before_action :execute_flow,     only: :create
 
   def create
     render json: @token_response

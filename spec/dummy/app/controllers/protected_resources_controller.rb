@@ -1,5 +1,5 @@
 class ProtectedResourcesController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   def index
     authorize! :index, :protected_resource

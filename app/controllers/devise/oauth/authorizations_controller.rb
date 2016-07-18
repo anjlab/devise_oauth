@@ -1,16 +1,16 @@
 class Devise::Oauth::AuthorizationsController < ApplicationController 
   include Devise::Oauth::Helpers
 
-  before_filter :authenticate_user! # TODO: use devise scope here
-  before_filter :find_client
-  before_filter :find_resource_owner
-  before_filter :normalize_scope
-  # before_filter :check_scope          # check if the access is authorized
-  before_filter :client_blocked?      # check if the client is blocked
-  before_filter :access_blocked?      # check if user has blocked the client
+  before_action :authenticate_user! # TODO: use devise scope here
+  before_action :find_client
+  before_action :find_resource_owner
+  before_action :normalize_scope
+  # before_action :check_scope          # check if the access is authorized
+  before_action :client_blocked?      # check if the client is blocked
+  before_action :access_blocked?      # check if user has blocked the client
 
-  # before_filter :token_blocked?, only: :show   # check for an existing token
-  # before_filter :refresh_token,  only: :show   # create a new token
+  # before_action :token_blocked?, only: :show   # check for an existing token
+  # before_action :refresh_token,  only: :show   # create a new token
 
   def show
   end
