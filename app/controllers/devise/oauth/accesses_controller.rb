@@ -1,4 +1,4 @@
-class AccessesController < ApplicationController
+class Devise::Oauth::AccessesController < ApplicationController
   def index
   end
 
